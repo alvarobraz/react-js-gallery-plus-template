@@ -5,14 +5,26 @@ import ChevronRightIcon from "./assets/icons/chevron-right.svg?react";
 import Badge from "./components/badge";
 import Alert from "./components/alert";
 import Divider from "./components/divider";
-import InputText from "./components/input-text";
 import SearchIcon from "./assets/icons/search.svg?react";
-// import InputCheckbox from "./components/input-checkbox";
-// import InputSingleFile from "./components/input-single-file";
-// import { useForm } from "react-hook-form";
+import InputText from "./components/input-text";
+import InputCheckbox from "./components/input-checkbox";
+import InputSingleFile from "./components/input-single-file";
+import { useForm } from "react-hook-form";
+import ImageFilePreview from "./components/image-file-preview";
+import {
+  Dialog,
+  DialogBody,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+} from "./components/dialog";
+import { DialogClose, DialogTrigger } from "@radix-ui/react-dialog";
+import Text from "./components/text";
 
 export default function App() {
-  // const form = useForm();
+  const form = useForm();
+  const file = form.watch("file");
+  const fileSrc = file?.[0] ? URL.createObjectURL(file[0]) : undefined;
 
   return (
     <div className="grid gap-7 p-6">
@@ -60,13 +72,52 @@ export default function App() {
         <InputText placeholder="Buscar foto" icon={SearchIcon} />
       </div>
 
-      {/* <div>
-        <InputCheckbox />
+      <div>
+        <Divider />
       </div>
 
       <div>
-        <InputSingleFile form={form} {...form.register("file")} />
-      </div> */}
+        <InputCheckbox />
+      </div>
+
+     
+
+        <InputSingleFile
+          allowedExtensions={["png", "jpg", "jpeg", "webp"]}
+          maxFileSizeInMB={50}
+          replaceBy={<ImageFilePreview src={fileSrc} alt="Imagem" />}
+          form={form}
+          {...form.register("file")}
+        />
+
+
+      <div>
+        <Dialog>
+          <DialogTrigger asChild>
+            <Button>Abrir Modal</Button>
+          </DialogTrigger>
+          <DialogContent>
+            <DialogHeader>Teste dialog</DialogHeader>
+            <DialogBody>
+              <Text as="div">Teste conteúdo do dialog</Text>
+
+              <InputSingleFile
+                allowedExtensions={["png", "jpg", "jpeg", "webp"]}
+                maxFileSizeInMB={50}
+                form={form}
+                replaceBy={<ImageFilePreview src={fileSrc} alt="Imagem" />}
+                {...form.register("file")}
+              />
+            </DialogBody>
+            <DialogFooter>
+              <DialogClose asChild>
+                <Button variant="secondary">Cancelar</Button>
+              </DialogClose>
+              <Button>Adicionar</Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+      </div>
     </div>
   );
 }
