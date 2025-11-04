@@ -25,7 +25,7 @@ export default function PageHome() {
         photos={[
           {
             id: "123",
-            title: "Olá mundo!",
+            title: "Tower!",
             imageId: "portrait-tower.png",
             albums: [
               { id: "3421", title: "Album 1" },
@@ -34,9 +34,9 @@ export default function PageHome() {
             ],
           },
           {
-            id: "123",
-            title: "Olá mundo!",
-            imageId: "portrait-tower.png",
+            id: "456",
+            title: "Cat!",
+            imageId: "square-cat.png",
             albums: [
               { id: "3421", title: "Album 1" },
               { id: "123", title: "Album 2" },
