@@ -2,6 +2,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { api, fetcher } from "../../../helpers/api";
 import type { Photo } from "../models/photos";
 import type { PhotoNewFormSchema } from "../../schemas";
+import { toast } from "sonner";
 
 interface PhotoDetailResponse extends Photo {
   nextPhotoId?: string;
@@ -18,7 +19,6 @@ export default function usePhoto(id?: string) {
   const queryClient = useQueryClient();
 
   async function createPhoto(payload: PhotoNewFormSchema) {
-    // eslint-disable-next-line no-useless-catch
     try {
       const { data: photo } = await api.post<Photo>("/photos", {
         title: payload.title,
@@ -43,7 +43,9 @@ export default function usePhoto(id?: string) {
       }
 
       queryClient.invalidateQueries({ queryKey: ["photos"] });
+      toast.success("Foto crida com sucesso");
     } catch (error) {
+      toast.success("Erro ao criar foto");
       throw error;
     }
   }
